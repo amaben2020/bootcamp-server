@@ -8,9 +8,9 @@ const connectionString = process.env.DATABASE_CONNECTION;
 export const connectDB = async () => {
   try {
     await mongoose.connect(connectionString);
-    console.log(`MongoDB connection successfully created`);
+    console.log(`MongoDB connection successfully created ✅ `);
   } catch (error) {
-    console.log(`Error ${error.message}`);
+    console.log(`Error ${error.message} ❌`);
     process.exit(1);
   }
 };
