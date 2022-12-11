@@ -5,7 +5,7 @@ import {
   deleteBootcampById,
   getAllBootcamps,
   updateBootcampById,
-} from '../controllers/bootcampControllers';
+} from '../controllers/bootcampControllers.js';
 
 let router = express.Router();
 
