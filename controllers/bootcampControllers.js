@@ -5,7 +5,38 @@ import { asyncHandler } from './../middleware/asyncHandler.js';
 import { ErrorResponse } from '../utils/errorResponse.js';
 
 export const getAllBootcamps = asyncHandler(async (req, res, next) => {
-  const bootcamps = await Bootcamp.find();
+  console.log(req.query);
+
+  let query;
+
+  const reqQuery = { ...req.query };
+
+  const removeFields = ['sort'];
+
+  // deleting the property from object
+  removeFields.forEach((value) => delete reqQuery[value]);
+
+  let queryString = JSON.stringify(reqQuery);
+
+  queryString = queryString.replace(
+    /\b(gt|gte|lt|in|lte)\b/g,
+    (match) => `$${match}`
+  );
+
+  query = Bootcamp.find(JSON.parse(queryString));
+
+  if (req.query.sort) {
+    const sortByArr = req.query.sort.split(',');
+
+    const sortByStr = sortByArr.join(' ');
+
+    query = query.sort(sortByStr);
+  } else {
+    query = query.sort('-price');
+  }
+
+  // waiting for the query to resolve
+  const bootcamps = await query;
 
   res.status(200).json({
     success: bootcamps.length && true,
