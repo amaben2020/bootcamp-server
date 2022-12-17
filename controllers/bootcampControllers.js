@@ -4,6 +4,19 @@ import { Bootcamp } from './../models/Bootcamp.js';
 import { asyncHandler } from './../middleware/asyncHandler.js';
 import { ErrorResponse } from '../utils/errorResponse.js';
 
+export const getSingleBootcamp = asyncHandler(async (req, res, next) => {
+  console.log(req.params.id);
+  const bootcamp = await Bootcamp.findById(req.params.id);
+
+  if (!bootcamp) {
+    return next(
+      new ErrorResponse(`Bootcamp with id ${req.params.id} does not exist`, 404)
+    );
+  }
+
+  res.status(201).json({ success: true, bootcamp });
+});
+
 export const getAllBootcamps = asyncHandler(async (req, res, next) => {
   console.log(req.query);
 

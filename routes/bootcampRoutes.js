@@ -4,6 +4,7 @@ import {
   createNewBootcamps,
   deleteBootcampById,
   getAllBootcamps,
+  getSingleBootcamp,
   updateBootcampById,
 } from '../controllers/bootcampControllers.js';
 
@@ -13,6 +14,10 @@ let router = express.Router();
 router.route('/').get(getAllBootcamps).post(createNewBootcamps);
 
 // @route - /api/v1/bootcamps/:id
-router.route('/:id').put(updateBootcampById).delete(deleteBootcampById);
+router
+  .route('/:id')
+  .get(getSingleBootcamp)
+  .put(updateBootcampById)
+  .delete(deleteBootcampById);
 
 export default router;
